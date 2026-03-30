@@ -1,4 +1,3 @@
-
 # Exercise setup
 
 **File structure**
@@ -35,9 +34,10 @@ Now make  **six commits** , one at a time:
 
 ### Commit 1: create `README.md`
 
-* Add a title and 3 to 5 lines describing the folder and its purpose.
-* Save the file.
-* Go to  **Source Control** .
+** Add a title and 3 to 5 lines describing the folder and its purpose.
+** Save the file.
+** Go to  **Source Control** .
+
 * Hover over `README.md` and click the **Open Changes** icon to view the diff.
 * In the commit message box, enter: `Create README`
 * Click  **Commit** .
