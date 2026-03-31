@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highveld-GTS — Project Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cat-marketing: #3B82F6;
+            --cat-operations: #10B981;
+            --cat-tech: #8B5CF6;
+            --cat-finance: #F59E0B;
+            --cat-partnerships: #06B6D4;
+            --cat-hr: #EC4899;
+            --pri-high: #EF4444;
+            --pri-medium: #F59E0B;
+            --pri-low: #22C55E;
+            --bg: #F1F5F9;
+            --card-bg: #FFFFFF;
+            --text: #1E293B;
+            --text-secondary: #64748B;
+            --border: #E2E8F0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+            --radius: 12px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+            color: #fff;
+            padding: 24px 32px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .header-left .subtitle {
+            font-size: 0.85rem;
+            color: #94A3B8;
+            margin-top: 4px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .data-date {
+            font-size: 0.85rem;
+            color: #94A3B8;
+        }
+        .load-btn {
+            background: #3B82F6;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .load-btn:hover { background: #2563EB; }
+
+        /* Main container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--text-secondary);
+        }
+        .empty-state h2 { font-size: 1.25rem; margin-bottom: 8px; color: var(--text); }
+
+        /* Summary Cards */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .summary-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid transparent;
+        }
+        .summary-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .summary-card:nth-child(1) { border-left-color: #3B82F6; }
+        .summary-card:nth-child(2) { border-left-color: #22C55E; }
+        .summary-card:nth-child(3) { border-left-color: #F59E0B; }
+        .summary-card:nth-child(4) { border-left-color: #8B5CF6; }
+        .summary-card:nth-child(5) { border-left-color: #06B6D4; }
+
+        /* Dashboard grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .panel {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+        .panel h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        .panel-full {
+            grid-column: 1 / -1;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-height: 350px;
+        }
+
+        /* Risk Heat Map */
+        .risk-heatmap {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        .risk-heatmap th, .risk-heatmap td {
+            border: 1px solid var(--border);
+            padding: 10px 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            vertical-align: top;
+        }
+        .risk-heatmap th {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .risk-heatmap .axis-label {
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            font-weight: 700;
+            color: var(--text);
+            background: #F8FAFC;
+            padding: 8px 4px;
+        }
+        .risk-heatmap td.cell {
+            min-height: 60px;
+            border-radius: 4px;
+        }
+        .risk-heatmap .risk-item {
+            display: block;
+            font-size: 0.72rem;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+        .risk-heatmap .risk-id {
+            font-weight: 700;
+            margin-right: 2px;
+        }
+
+        /* Heat map colours */
+        .heat-low-low       { background: #DCFCE7; }
+        .heat-low-med       { background: #D1FAE5; }
+        .heat-low-high      { background: #FEF9C3; }
+        .heat-med-low       { background: #D1FAE5; }
+        .heat-med-med       { background: #FEF3C7; }
+        .heat-med-high      { background: #FED7AA; }
+        .heat-high-low      { background: #FEF9C3; }
+        .heat-high-med      { background: #FED7AA; }
+        .heat-high-high     { background: #FECACA; }
+
+        /* Mitigation list */
+        .mitigation-list {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .mitigation-list h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+        .mitigation-item {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            padding-left: 16px;
+            position: relative;
+            line-height: 1.5;
+        }
+        .mitigation-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+        }
+        .mitigation-item strong {
+            color: var(--text);
+        }
+
+        /* Milestone tracker */
+        .milestone-timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+        .milestone-timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        .milestone-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            background: #F8FAFC;
+            border-radius: 8px;
+            border-left: 3px solid var(--border);
+        }
+        .milestone-item.complete {
+            border-left-color: #22C55E;
+            background: #F0FDF4;
+        }
+        .milestone-item.partial {
+            border-left-color: #F59E0B;
+            background: #FFFBEB;
+        }
+        .milestone-item.pending {
+            border-left-color: #CBD5E1;
+        }
+        .milestone-dot {
+            position: absolute;
+            left: -27px;
+            top: 16px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px var(--border);
+            background: #CBD5E1;
+        }
+        .milestone-item.complete .milestone-dot {
+            background: #22C55E;
+            box-shadow: 0 0 0 2px #22C55E;
+        }
+        .milestone-item.partial .milestone-dot {
+            background: #F59E0B;
+            box-shadow: 0 0 0 2px #F59E0B;
+        }
+        .milestone-name {
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+        }
+        .milestone-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .milestone-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .milestone-status.complete { color: #16A34A; }
+        .milestone-status.partial { color: #D97706; }
+        .milestone-status.pending { color: #94A3B8; }
+        .milestone-progress-bar {
+            height: 4px;
+            background: #E2E8F0;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .milestone-progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        .milestone-item.complete .milestone-progress-fill { background: #22C55E; }
+        .milestone-item.partial .milestone-progress-fill { background: #F59E0B; }
+        .milestone-item.pending .milestone-progress-fill { background: #CBD5E1; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .header { padding: 16px 20px; }
+            .container { padding: 16px; }
+            .summary-row { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            .header-left h1 { font-size: 1.15rem; }
+            .summary-row { grid-template-columns: 1fr 1fr; }
+            .summary-card .value { font-size: 1.5rem; }
+        }
+
+        /* Hidden file input */
+        #fileInput { display: none; }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <h1>Highveld-GTS &mdash; Project Dashboard</h1>
+        <div class="subtitle" id="dataDate">No data loaded</div>
+    </div>
+    <div class="header-right">
+        <button class="load-btn" id="loadBtn">Load Board Data</button>
+        <input type="file" id="fileInput" accept=".json">
+    </div>
+</header>
+
+<div class="container">
+    <div id="emptyState" class="empty-state" style="display:none;">
+        <h2>No Data Loaded</h2>
+        <p>Click "Load Board Data" to import a Kanban Board export (.json) file.</p>
+    </div>
+
+    <div id="dashboardContent">
+        <!-- Summary Cards -->
+        <div class="summary-row" id="summaryRow"></div>
+
+        <!-- Charts Row 1 -->
+        <div class="dashboard-grid">
+            <div class="panel">
+                <h2>Task Distribution by Column</h2>
+                <div class="chart-container">
+                    <canvas id="columnChart"></canvas>
+                </div>
+            </div>
+            <div class="panel">
+                <h2>Task Distribution by Category</h2>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 2 -->
+        <div class="dashboard-grid">
+            <div class="panel">
+                <h2>Effort Breakdown by Role (Days)</h2>
+                <div class="chart-container">
+                    <canvas id="effortChart"></canvas>
+                </div>
+            </div>
+            <div class="panel">
+                <h2>Priority Distribution</h2>
+                <div class="chart-container">
+                    <canvas id="priorityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Heat Map -->
+        <div class="dashboard-grid">
+            <div class="panel panel-full">
+                <h2>Risk Heat Map</h2>
+                <div id="riskHeatMap"></div>
+            </div>
+        </div>
+
+        <!-- Milestone Tracker -->
+        <div class="dashboard-grid">
+            <div class="panel panel-full">
+                <h2>Milestone Tracker</h2>
+                <div id="milestoneTracker"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Category colours
+    const CAT_COLORS = {
+        'Marketing':    '#3B82F6',
+        'Operations':   '#10B981',
+        'Tech':         '#8B5CF6',
+        'Finance':      '#F59E0B',
+        'Partnerships': '#06B6D4',
+        'HR/Admin':     '#EC4899'
+    };
+
+    // Priority colours
+    const PRI_COLORS = {
+        'High':   '#EF4444',
+        'Medium': '#F59E0B',
+        'Low':    '#22C55E'
+    };
+
+    // Column definitions and labels
+    const COLUMNS = [
+        { key: 'backlog',  label: 'Backlog' },
+        { key: 'todo',     label: 'To Do' },
+        { key: 'progress', label: 'In Progress' },
+        { key: 'review',   label: 'Review' },
+        { key: 'done',     label: 'Done' }
+    ];
+
+    // Chart instances
+    let charts = {};
+
+    // Elements
+    const loadBtn = document.getElementById('loadBtn');
+    const fileInput = document.getElementById('fileInput');
+    const dataDate = document.getElementById('dataDate');
+    const emptyState = document.getElementById('emptyState');
+    const dashboardContent = document.getElementById('dashboardContent');
+
+    // Load button click
+    loadBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            try {
+                const data = JSON.parse(ev.target.result);
+                renderDashboard(data);
+            } catch (err) {
+                alert('Invalid JSON file. Please select a valid Kanban Board export.');
+            }
+        };
+        reader.readAsText(file);
+        fileInput.value = '';
+    });
+
+    // Auto-load bundled data
+    const BUNDLED_DATA = {"cards":[{"id":1,"title":"Register with Gauteng Tourism Authority","desc":"Complete tourism operator registration with the provincial authority","cat":"Operations","effort":5,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"High","due":""},{"id":2,"title":"Obtain public liability insurance","desc":"Secure minimum R10 million public liability cover and per-trip insurance","cat":"Operations","effort":5,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"High","due":""},{"id":3,"title":"Obtain BBBEE certification","desc":"Apply for and obtain Level 4 or better BBBEE status for corporate client eligibility","cat":"Operations","effort":10,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"High","due":""},{"id":4,"title":"Recruit and onboard cultural guides","desc":"Onboard Praveen (Fordsburg heritage) and Thandi's grandmother (Soweto stories)","cat":"HR/Admin","effort":5,"role":"Joanne Clarke — Project Lead","col":"done","priority":"High","due":""},{"id":5,"title":"Register guides with Dept of Tourism","desc":"Ensure Praveen and other cultural guides are registered with the Department of Tourism","cat":"Operations","effort":3,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Medium","due":""},{"id":6,"title":"Upskill drivers in hospitality","desc":"Train existing drivers in hospitality, cultural narrative delivery, and guest interaction","cat":"HR/Admin","effort":5,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Medium","due":""},{"id":7,"title":"Set up safety and compliance protocols","desc":"Equip vehicles with first aid kits, establish emergency protocols, brief all staff","cat":"Operations","effort":3,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"High","due":""},{"id":8,"title":"Design and develop website","desc":"Build mobile-optimised website with experience descriptions, pricing, and instant booking","cat":"Operations","effort":15,"role":"Boitumelo — Photographer","col":"progress","priority":"High","due":""},{"id":9,"title":"Set up payment gateway","desc":"Integrate online credit card and foreign currency card processing","cat":"Tech","effort":5,"role":"Peter — Web Developer","col":"todo","priority":"High","due":""},{"id":10,"title":"Set up WhatsApp Business","desc":"Configure WhatsApp Business for quick enquiries and last-minute bookings","cat":"Tech","effort":1,"role":"Chris — Technology & AI Lead","col":"todo","priority":"Medium","due":""},{"id":11,"title":"Build automated email confirmations","desc":"Create automated booking confirmation emails with itinerary, driver name, pick-up time","cat":"Tech","effort":3,"role":"Peter — Web Developer","col":"todo","priority":"Medium","due":""},{"id":12,"title":"Build automated feedback surveys","desc":"Create post-experience automated feedback loop with NPS tracking","cat":"Tech","effort":3,"role":"Peter — Web Developer","col":"backlog","priority":"Medium","due":""},{"id":13,"title":"Set up AI itinerary generation","desc":"Configure generative AI tools for personalised itinerary creation","cat":"Tech","effort":5,"role":"Chris — Technology & AI Lead","col":"todo","priority":"High","due":""},{"id":14,"title":"Set up AI multi-language comms","desc":"Configure AI tools for translating guest communications and marketing materials","cat":"Tech","effort":3,"role":"Chris — Technology & AI Lead","col":"backlog","priority":"Medium","due":""},{"id":15,"title":"Set up expense tracking","desc":"Implement financial tracking for per-trip costs, margins, and commission payments","cat":"Finance","effort":3,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Medium","due":""},{"id":16,"title":"Create corporate invoicing process","desc":"Establish invoicing workflow for corporate accounts with 30-day terms","cat":"Finance","effort":3,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Medium","due":""},{"id":17,"title":"Implement dynamic pricing model","desc":"Build pricing rules for peak-period surcharges (15-25%) during G20 and conferences","cat":"Finance","effort":3,"role":"Chris — Technology & AI Lead","col":"backlog","priority":"Low","due":""},{"id":18,"title":"Develop \"The Mandela Legacy\" itinerary","desc":"Constitutional Hill → Mandela House → Saxon Hotel high tea, with timing and routes","cat":"Operations","effort":5,"role":"Joanne Clarke — Project Lead","col":"todo","priority":"High","due":""},{"id":19,"title":"Develop \"Johannesburg After Dark\" itinerary","desc":"Randlords rooftop sunset → Maboneng arts district → live jazz venue","cat":"Operations","effort":5,"role":"Joanne Clarke — Project Lead","col":"todo","priority":"High","due":""},{"id":20,"title":"Develop \"The Spice Route\" itinerary","desc":"Oriental Plaza spice market → Fordsburg walking tour → family restaurant dinner","cat":"Operations","effort":5,"role":"Joanne Clarke — Project Lead","col":"todo","priority":"High","due":""},{"id":21,"title":"Conduct dry runs of experiences","desc":"Test each signature experience end-to-end, including timing and logistics","cat":"Operations","effort":5,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"High","due":""},{"id":22,"title":"Establish contingency plans","desc":"Develop backup options for weather events, venue closures, and traffic disruptions","cat":"Operations","effort":3,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Medium","due":""},{"id":23,"title":"Negotiate venue access agreements","desc":"Secure group entry rates at Constitutional Hill, Mandela House, and other venues","cat":"Partnerships","effort":10,"role":"Joanne Clarke — Project Lead","col":"todo","priority":"High","due":""},{"id":24,"title":"Negotiate restaurant partnerships","desc":"Agree set menu pricing and availability with Fordsburg restaurant and food vendors","cat":"Partnerships","effort":5,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Medium","due":""},{"id":25,"title":"Establish hotel concierge partnerships","desc":"Onboard concierge desks at Saxon, Four Seasons, Fairlawns, Sandton Sun, Radisson Blu","cat":"Partnerships","effort":10,"role":"Joanne Clarke — Project Lead","col":"todo","priority":"High","due":""},{"id":26,"title":"Host concierge familiarisation experiences","desc":"Invite concierge staff from 5 target hotels on complimentary ACE outings","cat":"Partnerships","effort":5,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"High","due":""},{"id":27,"title":"Build embassy & consulate relationships","desc":"Engage protocol teams at key embassies (G20 member nations) for delegate bookings","cat":"Partnerships","effort":10,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Low","due":""},{"id":28,"title":"Approach conference organisers","desc":"Partner with Sandton Convention Centre for delegate welcome packs and social programmes","cat":"Partnerships","effort":5,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Medium","due":""},{"id":29,"title":"Commission photography","desc":"Engage Boitumelo for professional photography of experiences and venues","cat":"Marketing","effort":5,"role":"Boitumelo — Photographer","col":"todo","priority":"High","due":""},{"id":30,"title":"Design marketing materials","desc":"Create brochures, experience descriptions, and hotel concierge desk inserts","cat":"Marketing","effort":5,"role":"Chris — Technology & AI Lead","col":"backlog","priority":"High","due":""},{"id":31,"title":"Set up Instagram Business profile","desc":"Create and configure Instagram with initial content and visual storytelling","cat":"Marketing","effort":1,"role":"Chris — Technology & AI Lead","col":"backlog","priority":"Medium","due":""},{"id":32,"title":"Set up LinkedIn company page","desc":"Create LinkedIn presence for corporate credibility and B2B engagement","cat":"Marketing","effort":1,"role":"Chris — Technology & AI Lead","col":"backlog","priority":"Medium","due":""},{"id":33,"title":"Create social media content calendar","desc":"Plan recurring content themes, posting schedule, and engagement strategy","cat":"Marketing","effort":3,"role":"Chris — Technology & AI Lead","col":"backlog","priority":"Medium","due":""},{"id":34,"title":"Set up TripAdvisor & Google Business","desc":"Create business listings for review collection and online visibility","cat":"Marketing","effort":2,"role":"Chris — Technology & AI Lead","col":"backlog","priority":"Medium","due":""},{"id":35,"title":"Corporate sales outreach campaign","desc":"Direct engagement with corporate travel managers and PAs for accounts","cat":"Marketing","effort":10,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"High","due":""},{"id":36,"title":"Launch marketing campaign","desc":"Coordinated launch across website, social media, hotel concierges, corporate channels","cat":"Marketing","effort":5,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"High","due":""},{"id":37,"title":"Set up referral programme","desc":"Design commission/incentive structure for concierges and corporate referrals","cat":"Marketing","effort":3,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Medium","due":""},{"id":38,"title":"Implement mystery-guest reviews","desc":"Establish periodic quality audits using anonymous mystery-guest reviews","cat":"Operations","effort":3,"role":"Joanne Clarke — Project Lead","col":"backlog","priority":"Low","due":""},{"id":39,"title":"Set up NPS tracking & review management","desc":"Implement Net Promoter Score tracking and online review response workflow","cat":"Marketing","effort":2,"role":"Chris — Technology & AI Lead","col":"backlog","priority":"Medium","due":""}],"risks":[{"id":1,"desc":"Concierge adoption rate lower than expected — hotels may be slow to recommend an unproven operator","impact":"High","likelihood":"Medium","mitigation":"Invest in familiarisation experiences, ensure prompt commission payments, build direct booking channels as fallback"},{"id":2,"desc":"Safety incident during an experience — injury, vehicle accident, or security event","impact":"High","likelihood":"Low","mitigation":"Maintain R10M insurance, enforce strict vehicle maintenance, equip first aid kits, establish emergency protocols"},{"id":3,"desc":"Guide availability or reliability — Praveen or Thandi's grandmother unavailable for a booking","impact":"Medium","likelihood":"Medium","mitigation":"Build pool of backup guides, cross-train team members on key narratives, maintain flexible scheduling"},{"id":4,"desc":"Seasonal demand fluctuations — low periods between conferences and peak travel seasons","impact":"Medium","likelihood":"High","mitigation":"Implement dynamic pricing, target corporate retainers for baseline revenue, diversify conference partnerships"},{"id":5,"desc":"Venue access disrupted — closures, renovations, or changed terms at key experience locations","impact":"Medium","likelihood":"Medium","mitigation":"Maintain contingency venues for each itinerary, design flexible routes with alternative stops"},{"id":6,"desc":"Negative online review or reputation damage — a poor experience amplified on TripAdvisor or Google","impact":"High","likelihood":"Low","mitigation":"Implement rapid response protocol, send proactive feedback surveys, conduct mystery-guest quality audits"},{"id":7,"desc":"Cash flow pressure during ramp-up — fixed costs exceed revenue before booking volume builds","impact":"High","likelihood":"Medium","mitigation":"Leverage existing transport business revenue, minimise fixed costs, maintain contingency fund, target Month 6 break-even"},{"id":8,"desc":"Regulatory changes to tourism registration requirements","impact":"Low","likelihood":"Low","mitigation":"Monitor regulatory environment proactively, maintain relationships with Gauteng Tourism Authority"},{"id":9,"desc":"Competition from established tour operators entering the premium niche","impact":"Medium","likelihood":"Medium","mitigation":"Differentiate on authenticity and personal connections, leverage AI for bespoke experiences, protect community relationships"},{"id":10,"desc":"Traffic and logistics delays affecting experience quality","impact":"Medium","likelihood":"High","mitigation":"Use AI-assisted route optimisation, build buffer time into itineraries, maintain flexible scheduling"}],"milestones":[{"id":1,"name":"Tourism Registration & Compliance Complete","desc":"All regulatory registrations finalised (Gauteng Tourism Authority, guide registrations, BBBEE certification)","linkedCards":[1,2,3,5]},{"id":2,"name":"Insurance & Safety Protocols in Place","desc":"R10M public liability cover obtained, vehicles equipped, emergency protocols established","linkedCards":[2,7]},{"id":3,"name":"Website & Booking System Live","desc":"Fully functional website with online booking, payment processing, and automated confirmations","linkedCards":[8,9,11]},{"id":4,"name":"All 3 Signature Experiences Designed & Tested","desc":"Mandela Legacy, Johannesburg After Dark, and The Spice Route itineraries completed with dry runs","linkedCards":[18,19,20,21]},{"id":5,"name":"Hotel Concierge Partnerships Established","desc":"Concierge relationships active at all 5 target hotels with brochures placed","linkedCards":[25]},{"id":6,"name":"Concierge Familiarisation Experiences Hosted","desc":"Concierge staff from target hotels have completed complimentary ACE outings","linkedCards":[26]},{"id":7,"name":"Marketing Assets & Channels Ready","desc":"Website, social media, brochures, photography, and corporate sales materials all live","linkedCards":[29,30,31,32,33,34]},{"id":8,"name":"Launch Day — First Experience Delivered","desc":"First paid cultural experience delivered successfully to a real guest","linkedCards":[36]},{"id":9,"name":"Break-even Achieved","desc":"5 experiences per month sustained (target: Month 6)","linkedCards":[]},{"id":10,"name":"Year 1 Target Reached","desc":"100 experiences delivered","linkedCards":[]}]};
+
+    function init() {
+        if (BUNDLED_DATA && BUNDLED_DATA.cards) {
+            renderDashboard(BUNDLED_DATA);
+        } else {
+            emptyState.style.display = 'block';
+            dashboardContent.style.display = 'none';
+        }
+    }
+
+    function renderDashboard(data) {
+        emptyState.style.display = 'none';
+        dashboardContent.style.display = 'block';
+
+        const now = new Date();
+        dataDate.textContent = 'Data loaded: ' + now.toLocaleDateString('en-ZA', {
+            year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+
+        const cards = data.cards || [];
+        const risks = data.risks || [];
+        const milestones = data.milestones || [];
+
+        renderSummary(cards);
+        renderColumnChart(cards);
+        renderCategoryChart(cards);
+        renderEffortChart(cards);
+        renderPriorityChart(cards);
+        renderRiskHeatMap(risks);
+        renderMilestones(milestones, cards);
+    }
+
+    // --- Summary Cards ---
+    function renderSummary(cards) {
+        const total = cards.length;
+        const done = cards.filter(c => c.col === 'done').length;
+        const inProgress = cards.filter(c => c.col === 'progress').length;
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        const totalEffort = cards.reduce((sum, c) => sum + (c.effort || 0), 0);
+
+        const metrics = [
+            { label: 'Total Tasks', value: total },
+            { label: 'Tasks Completed', value: done },
+            { label: 'Tasks In Progress', value: inProgress },
+            { label: 'Completion', value: pct + '%' },
+            { label: 'Total Effort (Days)', value: totalEffort }
+        ];
+
+        document.getElementById('summaryRow').innerHTML = metrics.map(m =>
+            `<div class="summary-card">
+                <div class="label">${m.label}</div>
+                <div class="value">${m.value}</div>
+            </div>`
+        ).join('');
+    }
+
+    // --- Task Distribution by Column (Stacked Bar) ---
+    function renderColumnChart(cards) {
+        const categories = [...new Set(cards.map(c => c.cat))].sort();
+
+        const datasets = categories.map(cat => ({
+            label: cat,
+            data: COLUMNS.map(col => cards.filter(c => c.col === col.key && c.cat === cat).length),
+            backgroundColor: CAT_COLORS[cat] || '#9CA3AF',
+            borderRadius: 4
+        }));
+
+        destroyChart('columnChart');
+        charts.columnChart = new Chart(document.getElementById('columnChart'), {
+            type: 'bar',
+            data: {
+                labels: COLUMNS.map(c => c.label),
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, font: { size: 11 } } }
+                },
+                scales: {
+                    x: { stacked: true, grid: { display: false } },
+                    y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+    }
+
+    // --- Task Distribution by Category (Donut) ---
+    function renderCategoryChart(cards) {
+        const catCounts = {};
+        cards.forEach(c => { catCounts[c.cat] = (catCounts[c.cat] || 0) + 1; });
+        const labels = Object.keys(catCounts).sort();
+        const values = labels.map(l => catCounts[l]);
+        const colors = labels.map(l => CAT_COLORS[l] || '#9CA3AF');
+
+        destroyChart('categoryChart');
+        charts.categoryChart = new Chart(document.getElementById('categoryChart'), {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '55%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 14, font: { size: 11 } } }
+                }
+            }
+        });
+    }
+
+    // --- Effort by Role (Horizontal Bar) ---
+    function renderEffortChart(cards) {
+        const roleEffort = {};
+        cards.forEach(c => {
+            const role = c.role || 'Unassigned';
+            roleEffort[role] = (roleEffort[role] || 0) + (c.effort || 0);
+        });
+        const sorted = Object.entries(roleEffort).sort((a, b) => b[1] - a[1]);
+        const labels = sorted.map(e => e[0]);
+        const values = sorted.map(e => e[1]);
+        const barColors = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#06B6D4', '#EC4899'];
+
+        destroyChart('effortChart');
+        charts.effortChart = new Chart(document.getElementById('effortChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: barColors.slice(0, labels.length),
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, title: { display: true, text: 'Effort (days)', font: { size: 11 } } },
+                    y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+                }
+            }
+        });
+    }
+
+    // --- Priority Distribution (Pie) ---
+    function renderPriorityChart(cards) {
+        const priCounts = {};
+        cards.forEach(c => { priCounts[c.priority] = (priCounts[c.priority] || 0) + 1; });
+        const order = ['High', 'Medium', 'Low'];
+        const labels = order.filter(p => priCounts[p]);
+        const values = labels.map(l => priCounts[l]);
+        const colors = labels.map(l => PRI_COLORS[l]);
+
+        destroyChart('priorityChart');
+        charts.priorityChart = new Chart(document.getElementById('priorityChart'), {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 14, font: { size: 11 } } }
+                }
+            }
+        });
+    }
+
+    // --- Risk Heat Map ---
+    function renderRiskHeatMap(risks) {
+        const levels = ['Low', 'Medium', 'High'];
+        const impactLevels = ['High', 'Medium', 'Low']; // top to bottom
+
+        // Build grid
+        const grid = {};
+        impactLevels.forEach(imp => {
+            levels.forEach(lik => {
+                grid[imp + '-' + lik] = [];
+            });
+        });
+        risks.forEach(r => {
+            const key = r.impact + '-' + r.likelihood;
+            if (grid[key]) grid[key].push(r);
+        });
+
+        const heatClass = {
+            'High-High': 'heat-high-high',
+            'High-Medium': 'heat-med-high',
+            'High-Low': 'heat-low-high',
+            'Medium-High': 'heat-high-med',
+            'Medium-Medium': 'heat-med-med',
+            'Medium-Low': 'heat-low-med',
+            'Low-High': 'heat-high-low',
+            'Low-Medium': 'heat-med-low',
+            'Low-Low': 'heat-low-low'
+        };
+
+        let html = `<table class="risk-heatmap">
+            <thead>
+                <tr>
+                    <th colspan="2"></th>
+                    <th colspan="3" style="text-align:center; font-size:0.8rem;">LIKELIHOOD &rarr;</th>
+                </tr>
+                <tr>
+                    <th colspan="2"></th>
+                    <th>Low</th>
+                    <th>Medium</th>
+                    <th>High</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        impactLevels.forEach((imp, i) => {
+            html += '<tr>';
+            if (i === 0) {
+                html += `<td class="axis-label" rowspan="3" style="width:30px;">IMPACT</td>`;
+            }
+            html += `<th style="width:70px;">${imp}</th>`;
+            levels.forEach(lik => {
+                const key = imp + '-' + lik;
+                const cellRisks = grid[key];
+                const cls = heatClass[key] || '';
+                html += `<td class="cell ${cls}">`;
+                cellRisks.forEach(r => {
+                    html += `<span class="risk-item"><span class="risk-id">R${r.id}:</span> ${r.desc.substring(0, 60)}${r.desc.length > 60 ? '...' : ''}</span>`;
+                });
+                html += '</td>';
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+
+        // Mitigation strategies
+        html += '<div class="mitigation-list"><h3>Mitigation Strategies</h3>';
+        risks.forEach(r => {
+            html += `<div class="mitigation-item"><strong>R${r.id} — ${r.desc.substring(0, 80)}${r.desc.length > 80 ? '...' : ''}</strong><br>${r.mitigation}</div>`;
+        });
+        html += '</div>';
+
+        document.getElementById('riskHeatMap').innerHTML = html;
+    }
+
+    // --- Milestone Tracker ---
+    function renderMilestones(milestones, cards) {
+        const cardMap = {};
+        cards.forEach(c => { cardMap[c.id] = c; });
+
+        let html = '<div class="milestone-timeline">';
+        milestones.forEach(m => {
+            const linked = (m.linkedCards || []).map(id => cardMap[id]).filter(Boolean);
+            const total = linked.length;
+            const done = linked.filter(c => c.col === 'done').length;
+            let status, statusLabel;
+            if (total === 0) {
+                status = 'pending';
+                statusLabel = 'No linked tasks';
+            } else if (done === total) {
+                status = 'complete';
+                statusLabel = `Complete (${done}/${total} tasks)`;
+            } else if (done > 0) {
+                status = 'partial';
+                statusLabel = `In Progress (${done}/${total} tasks)`;
+            } else {
+                status = 'pending';
+                statusLabel = `Pending (0/${total} tasks)`;
+            }
+            const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+            html += `<div class="milestone-item ${status}">
+                <div class="milestone-dot"></div>
+                <div class="milestone-name">${m.name}</div>
+                <div class="milestone-desc">${m.desc}</div>
+                <div class="milestone-status ${status}">${statusLabel}</div>
+                ${total > 0 ? `<div class="milestone-progress-bar"><div class="milestone-progress-fill" style="width:${pct}%"></div></div>` : ''}
+            </div>`;
+        });
+        html += '</div>';
+        document.getElementById('milestoneTracker').innerHTML = html;
+    }
+
+    // Destroy existing chart
+    function destroyChart(id) {
+        if (charts[id]) {
+            charts[id].destroy();
+            delete charts[id];
+        }
+    }
+
+    // Initialize
+    init();
+})();
+</script>
+
+</body>
+</html>
