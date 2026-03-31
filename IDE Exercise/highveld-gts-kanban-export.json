@@ -1,0 +1,597 @@
+{
+  "cards": [
+    {
+      "id": 1,
+      "title": "Register with Gauteng Tourism Authority",
+      "desc": "Complete tourism operator registration with the provincial authority",
+      "cat": "Operations",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 2,
+      "title": "Obtain public liability insurance",
+      "desc": "Secure minimum R10 million public liability cover and per-trip insurance",
+      "cat": "Operations",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 3,
+      "title": "Obtain BBBEE certification",
+      "desc": "Apply for and obtain Level 4 or better BBBEE status for corporate client eligibility",
+      "cat": "Operations",
+      "effort": 10,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 4,
+      "title": "Recruit and onboard cultural guides",
+      "desc": "Onboard Praveen (Fordsburg heritage) and Thandi's grandmother (Soweto stories)",
+      "cat": "HR/Admin",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "done",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 5,
+      "title": "Register guides with Dept of Tourism",
+      "desc": "Ensure Praveen and other cultural guides are registered with the Department of Tourism",
+      "cat": "Operations",
+      "effort": 3,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 6,
+      "title": "Upskill drivers in hospitality",
+      "desc": "Train existing drivers in hospitality, cultural narrative delivery, and guest interaction",
+      "cat": "HR/Admin",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 7,
+      "title": "Set up safety and compliance protocols",
+      "desc": "Equip vehicles with first aid kits, establish emergency protocols, brief all staff",
+      "cat": "Operations",
+      "effort": 3,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 8,
+      "title": "Design and develop website",
+      "desc": "Build mobile-optimised website with experience descriptions, pricing, and instant booking",
+      "cat": "Operations",
+      "effort": 15,
+      "role": "Boitumelo — Photographer",
+      "col": "progress",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 9,
+      "title": "Set up payment gateway",
+      "desc": "Integrate online credit card and foreign currency card processing",
+      "cat": "Tech",
+      "effort": 5,
+      "role": "Peter — Web Developer",
+      "col": "todo",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 10,
+      "title": "Set up WhatsApp Business",
+      "desc": "Configure WhatsApp Business for quick enquiries and last-minute bookings",
+      "cat": "Tech",
+      "effort": 1,
+      "role": "Chris — Technology & AI Lead",
+      "col": "todo",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 11,
+      "title": "Build automated email confirmations",
+      "desc": "Create automated booking confirmation emails with itinerary, driver name, pick-up time",
+      "cat": "Tech",
+      "effort": 3,
+      "role": "Peter — Web Developer",
+      "col": "todo",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 12,
+      "title": "Build automated feedback surveys",
+      "desc": "Create post-experience automated feedback loop with NPS tracking",
+      "cat": "Tech",
+      "effort": 3,
+      "role": "Peter — Web Developer",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 13,
+      "title": "Set up AI itinerary generation",
+      "desc": "Configure generative AI tools for personalised itinerary creation",
+      "cat": "Tech",
+      "effort": 5,
+      "role": "Chris — Technology & AI Lead",
+      "col": "todo",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 14,
+      "title": "Set up AI multi-language comms",
+      "desc": "Configure AI tools for translating guest communications and marketing materials",
+      "cat": "Tech",
+      "effort": 3,
+      "role": "Chris — Technology & AI Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 15,
+      "title": "Set up expense tracking",
+      "desc": "Implement financial tracking for per-trip costs, margins, and commission payments",
+      "cat": "Finance",
+      "effort": 3,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 16,
+      "title": "Create corporate invoicing process",
+      "desc": "Establish invoicing workflow for corporate accounts with 30-day terms",
+      "cat": "Finance",
+      "effort": 3,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 17,
+      "title": "Implement dynamic pricing model",
+      "desc": "Build pricing rules for peak-period surcharges (15-25%) during G20 and conferences",
+      "cat": "Finance",
+      "effort": 3,
+      "role": "Chris — Technology & AI Lead",
+      "col": "backlog",
+      "priority": "Low",
+      "due": ""
+    },
+    {
+      "id": 18,
+      "title": "Develop \"The Mandela Legacy\" itinerary",
+      "desc": "Constitutional Hill → Mandela House → Saxon Hotel high tea, with timing and routes",
+      "cat": "Operations",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "todo",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 19,
+      "title": "Develop \"Johannesburg After Dark\" itinerary",
+      "desc": "Randlords rooftop sunset → Maboneng arts district → live jazz venue",
+      "cat": "Operations",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "todo",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 20,
+      "title": "Develop \"The Spice Route\" itinerary",
+      "desc": "Oriental Plaza spice market → Fordsburg walking tour → family restaurant dinner",
+      "cat": "Operations",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "todo",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 21,
+      "title": "Conduct dry runs of experiences",
+      "desc": "Test each signature experience end-to-end, including timing and logistics",
+      "cat": "Operations",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 22,
+      "title": "Establish contingency plans",
+      "desc": "Develop backup options for weather events, venue closures, and traffic disruptions",
+      "cat": "Operations",
+      "effort": 3,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 23,
+      "title": "Negotiate venue access agreements",
+      "desc": "Secure group entry rates at Constitutional Hill, Mandela House, and other venues",
+      "cat": "Partnerships",
+      "effort": 10,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "todo",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 24,
+      "title": "Negotiate restaurant partnerships",
+      "desc": "Agree set menu pricing and availability with Fordsburg restaurant and food vendors",
+      "cat": "Partnerships",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 25,
+      "title": "Establish hotel concierge partnerships",
+      "desc": "Onboard concierge desks at Saxon, Four Seasons, Fairlawns, Sandton Sun, Radisson Blu",
+      "cat": "Partnerships",
+      "effort": 10,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "todo",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 26,
+      "title": "Host concierge familiarisation experiences",
+      "desc": "Invite concierge staff from 5 target hotels on complimentary ACE outings",
+      "cat": "Partnerships",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 27,
+      "title": "Build embassy & consulate relationships",
+      "desc": "Engage protocol teams at key embassies (G20 member nations) for delegate bookings",
+      "cat": "Partnerships",
+      "effort": 10,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Low",
+      "due": ""
+    },
+    {
+      "id": 28,
+      "title": "Approach conference organisers",
+      "desc": "Partner with Sandton Convention Centre for delegate welcome packs and social programmes",
+      "cat": "Partnerships",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 29,
+      "title": "Commission photography",
+      "desc": "Engage Boitumelo for professional photography of experiences and venues",
+      "cat": "Marketing",
+      "effort": 5,
+      "role": "Boitumelo — Photographer",
+      "col": "todo",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 30,
+      "title": "Design marketing materials",
+      "desc": "Create brochures, experience descriptions, and hotel concierge desk inserts",
+      "cat": "Marketing",
+      "effort": 5,
+      "role": "Chris — Technology & AI Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 31,
+      "title": "Set up Instagram Business profile",
+      "desc": "Create and configure Instagram with initial content and visual storytelling",
+      "cat": "Marketing",
+      "effort": 1,
+      "role": "Chris — Technology & AI Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 32,
+      "title": "Set up LinkedIn company page",
+      "desc": "Create LinkedIn presence for corporate credibility and B2B engagement",
+      "cat": "Marketing",
+      "effort": 1,
+      "role": "Chris — Technology & AI Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 33,
+      "title": "Create social media content calendar",
+      "desc": "Plan recurring content themes, posting schedule, and engagement strategy",
+      "cat": "Marketing",
+      "effort": 3,
+      "role": "Chris — Technology & AI Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 34,
+      "title": "Set up TripAdvisor & Google Business",
+      "desc": "Create business listings for review collection and online visibility",
+      "cat": "Marketing",
+      "effort": 2,
+      "role": "Chris — Technology & AI Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 35,
+      "title": "Corporate sales outreach campaign",
+      "desc": "Direct engagement with corporate travel managers and PAs for accounts",
+      "cat": "Marketing",
+      "effort": 10,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 36,
+      "title": "Launch marketing campaign",
+      "desc": "Coordinated launch across website, social media, hotel concierges, corporate channels",
+      "cat": "Marketing",
+      "effort": 5,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "High",
+      "due": ""
+    },
+    {
+      "id": 37,
+      "title": "Set up referral programme",
+      "desc": "Design commission/incentive structure for concierges and corporate referrals",
+      "cat": "Marketing",
+      "effort": 3,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    },
+    {
+      "id": 38,
+      "title": "Implement mystery-guest reviews",
+      "desc": "Establish periodic quality audits using anonymous mystery-guest reviews",
+      "cat": "Operations",
+      "effort": 3,
+      "role": "Joanne Clarke — Project Lead",
+      "col": "backlog",
+      "priority": "Low",
+      "due": ""
+    },
+    {
+      "id": 39,
+      "title": "Set up NPS tracking & review management",
+      "desc": "Implement Net Promoter Score tracking and online review response workflow",
+      "cat": "Marketing",
+      "effort": 2,
+      "role": "Chris — Technology & AI Lead",
+      "col": "backlog",
+      "priority": "Medium",
+      "due": ""
+    }
+  ],
+  "risks": [
+    {
+      "id": 1,
+      "desc": "Concierge adoption rate lower than expected — hotels may be slow to recommend an unproven operator",
+      "impact": "High",
+      "likelihood": "Medium",
+      "mitigation": "Invest in familiarisation experiences, ensure prompt commission payments, build direct booking channels as fallback"
+    },
+    {
+      "id": 2,
+      "desc": "Safety incident during an experience — injury, vehicle accident, or security event",
+      "impact": "High",
+      "likelihood": "Low",
+      "mitigation": "Maintain R10M insurance, enforce strict vehicle maintenance, equip first aid kits, establish emergency protocols"
+    },
+    {
+      "id": 3,
+      "desc": "Guide availability or reliability — Praveen or Thandi's grandmother unavailable for a booking",
+      "impact": "Medium",
+      "likelihood": "Medium",
+      "mitigation": "Build pool of backup guides, cross-train team members on key narratives, maintain flexible scheduling"
+    },
+    {
+      "id": 4,
+      "desc": "Seasonal demand fluctuations — low periods between conferences and peak travel seasons",
+      "impact": "Medium",
+      "likelihood": "High",
+      "mitigation": "Implement dynamic pricing, target corporate retainers for baseline revenue, diversify conference partnerships"
+    },
+    {
+      "id": 5,
+      "desc": "Venue access disrupted — closures, renovations, or changed terms at key experience locations",
+      "impact": "Medium",
+      "likelihood": "Medium",
+      "mitigation": "Maintain contingency venues for each itinerary, design flexible routes with alternative stops"
+    },
+    {
+      "id": 6,
+      "desc": "Negative online review or reputation damage — a poor experience amplified on TripAdvisor or Google",
+      "impact": "High",
+      "likelihood": "Low",
+      "mitigation": "Implement rapid response protocol, send proactive feedback surveys, conduct mystery-guest quality audits"
+    },
+    {
+      "id": 7,
+      "desc": "Cash flow pressure during ramp-up — fixed costs exceed revenue before booking volume builds",
+      "impact": "High",
+      "likelihood": "Medium",
+      "mitigation": "Leverage existing transport business revenue, minimise fixed costs, maintain contingency fund, target Month 6 break-even"
+    },
+    {
+      "id": 8,
+      "desc": "Regulatory changes to tourism registration requirements",
+      "impact": "Low",
+      "likelihood": "Low",
+      "mitigation": "Monitor regulatory environment proactively, maintain relationships with Gauteng Tourism Authority"
+    },
+    {
+      "id": 9,
+      "desc": "Competition from established tour operators entering the premium niche",
+      "impact": "Medium",
+      "likelihood": "Medium",
+      "mitigation": "Differentiate on authenticity and personal connections, leverage AI for bespoke experiences, protect community relationships"
+    },
+    {
+      "id": 10,
+      "desc": "Traffic and logistics delays affecting experience quality",
+      "impact": "Medium",
+      "likelihood": "High",
+      "mitigation": "Use AI-assisted route optimisation, build buffer time into itineraries, maintain flexible scheduling"
+    }
+  ],
+  "milestones": [
+    {
+      "id": 1,
+      "name": "Tourism Registration & Compliance Complete",
+      "desc": "All regulatory registrations finalised (Gauteng Tourism Authority, guide registrations, BBBEE certification)",
+      "linkedCards": [
+        1,
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Insurance & Safety Protocols in Place",
+      "desc": "R10M public liability cover obtained, vehicles equipped, emergency protocols established",
+      "linkedCards": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Website & Booking System Live",
+      "desc": "Fully functional website with online booking, payment processing, and automated confirmations",
+      "linkedCards": [
+        8,
+        9,
+        11
+      ]
+    },
+    {
+      "id": 4,
+      "name": "All 3 Signature Experiences Designed & Tested",
+      "desc": "Mandela Legacy, Johannesburg After Dark, and The Spice Route itineraries completed with dry runs",
+      "linkedCards": [
+        18,
+        19,
+        20,
+        21
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Hotel Concierge Partnerships Established",
+      "desc": "Concierge relationships active at all 5 target hotels with brochures placed",
+      "linkedCards": [
+        25
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Concierge Familiarisation Experiences Hosted",
+      "desc": "Concierge staff from target hotels have completed complimentary ACE outings",
+      "linkedCards": [
+        26
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Marketing Assets & Channels Ready",
+      "desc": "Website, social media, brochures, photography, and corporate sales materials all live",
+      "linkedCards": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Launch Day — First Experience Delivered",
+      "desc": "First paid cultural experience delivered successfully to a real guest",
+      "linkedCards": [
+        36
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Break-even Achieved",
+      "desc": "5 experiences per month sustained (target: Month 6)",
+      "linkedCards": []
+    },
+    {
+      "id": 10,
+      "name": "Year 1 Target Reached",
+      "desc": "100 experiences delivered",
+      "linkedCards": []
+    }
+  ]
+}
